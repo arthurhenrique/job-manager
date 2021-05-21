@@ -1,0 +1,1 @@
+# hasty-challenge-manager
