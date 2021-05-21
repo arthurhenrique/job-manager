@@ -19,7 +19,7 @@ var (
 	HealthCheckHandlerPath = "/healthcheck"
 
 	// v1
-	TriggerHandlerV1Path = "/v1/trigger"
+	TriggerHandlerV1Path = "/v1/trigger/{id:[0-9]+}"
 
 	methodNotAllowedErrorMessage = "Invalid request method"
 )
