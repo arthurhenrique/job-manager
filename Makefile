@@ -42,6 +42,15 @@ docker/push:
 
 docker/up:
 	docker-compose up -d
+	sleep 5 # wait db be ready
+	docker run --rm --network=host -v "$(PWD)/migrations:/flyway/sql:ro"  \
+		boxfuse/flyway:5.2.4-alpine \
+		-driver="org.postgresql.Driver" \
+		-user="master" \
+		-schemas="job_manager" \
+		-password="123456" \
+		-url="jdbc:postgresql://localhost:5432/job_manager" \
+		migrate
 
 docker/down:
 	docker-compose down

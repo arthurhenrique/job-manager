@@ -9,10 +9,14 @@ import (
 )
 
 var config = map[string]string{
-	"ENVIRONMENT": "dev",
-	"LOG_LEVEL":   "DEBUG",
-	"HTTP_PORT":   "9000",
-	"JOB_TIMEOUT": "300",
+	"ENVIRONMENT":          "dev",
+	"LOG_LEVEL":            "DEBUG",
+	"HTTP_PORT":            "9000",
+	"JOB_TIMEOUT":          "300",
+	"DATASOURCE_NAME":      "host=localhost port=5432 user=master password=123456 dbname=job_manager sslmode=disable",
+	"DB_MAX_IDLE_CONNS":    "5",
+	"DB_MAX_OPEN_CONNS":    "10",
+	"DB_CONN_MAX_LIFETIME": "300",
 }
 
 func init() {
