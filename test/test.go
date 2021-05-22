@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"reflect"
+	"strings"
 	"testing"
 	"time"
 
@@ -75,13 +76,13 @@ func MockHTTP(t *testing.T, handler http.HandlerFunc) {
 }
 
 type APITestCase struct {
-	Name    string
-	Route   string
-	Method  string
-	Status  int
-	Payload string
-	Body    string
-	Headers http.Header
+	Name         string
+	Route        string
+	Method       string
+	Status       int
+	Payload      string
+	BodyContains string
+	Headers      http.Header
 }
 
 // Run execute test cases
@@ -123,8 +124,8 @@ func (tc APITestCase) Run(t *testing.T) {
 	}
 
 	if resp.StatusCode/100 != 3 {
-		if body != tc.Body {
-			t.Errorf("unexpected response body in '%s'\n Received '%s'\n Expected '%s'", tc.Name, body, tc.Body)
+		if !strings.Contains(body, tc.BodyContains) {
+			t.Errorf("unexpected response body in '%s'\n Received '%s'\n Expected that contains '%s'", tc.Name, body, tc.BodyContains)
 			return
 		}
 	}

@@ -23,11 +23,8 @@ func TestHandlers(t *testing.T) {
 		logrus.Fatalf("error getting db, err: %v", err)
 	}
 	test.MockHTTP(t, func(w http.ResponseWriter, r *http.Request) {
-		fixture := `{""}`
 		if r.URL.Path == "/v1/trigger/999" && r.Method == "POST" {
-			body := []byte(fixture)
 			w.WriteHeader(http.StatusOK)
-			w.Write(body)
 			return
 		}
 		w.WriteHeader(http.StatusNotImplemented)
@@ -35,10 +32,11 @@ func TestHandlers(t *testing.T) {
 
 	testCases := []test.APITestCase{
 		{
-			Name:   "should return OK status with body POST",
-			Method: http.MethodPost,
-			Route:  "http://localhost:9000/v1/trigger/999",
-			Status: http.StatusOK,
+			Name:         "should return OK status with body POST",
+			Method:       http.MethodPost,
+			Route:        "http://localhost:9000/v1/trigger/999",
+			BodyContains: "999",
+			Status:       http.StatusOK,
 		},
 	}
 
