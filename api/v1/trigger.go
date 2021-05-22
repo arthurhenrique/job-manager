@@ -12,7 +12,15 @@ type JobResponse struct {
 	ObjectId string `json:"object_id"`
 }
 
-func TriggerAPIHandler(w http.ResponseWriter, r *http.Request) {
+func TriggerPostAPIHandler(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+	vars := mux.Vars(r)
+	objectId := vars["id"]
+
+	common.Write(w, JobResponse{JobId: "1", ObjectId: objectId}, http.StatusAccepted)
+}
+
+func TriggerPutAPIHandler(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	vars := mux.Vars(r)
 	objectId := vars["id"]

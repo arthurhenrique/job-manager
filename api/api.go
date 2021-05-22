@@ -54,17 +54,6 @@ func Setup() error {
 	return nil
 }
 
-func TriggerHandlerV1(w http.ResponseWriter, r *http.Request) {
-	switch r.Method {
-	case http.MethodPost:
-		v1.TriggerAPIHandler(w, r)
-	case http.MethodPut:
-		v1.TriggerAPIHandler(w, r)
-	default:
-		http.Error(w, methodNotAllowedErrorMessage, http.StatusMethodNotAllowed)
-	}
-}
-
 func RootHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodGet {
 		http.Error(w, methodNotAllowedErrorMessage, http.StatusMethodNotAllowed)
@@ -83,4 +72,15 @@ func HealthCheckHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusOK)
 	fmt.Fprintf(w, "OK")
+}
+
+func TriggerHandlerV1(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case http.MethodPost:
+		v1.TriggerPostAPIHandler(w, r)
+	case http.MethodPut:
+		v1.TriggerPutAPIHandler(w, r)
+	default:
+		http.Error(w, methodNotAllowedErrorMessage, http.StatusMethodNotAllowed)
+	}
 }

@@ -1,29 +1,37 @@
 package repository
 
-import "errors"
+import (
+	"database/sql"
+)
 
 type Repository interface {
-	Select(base string) error
-	Create(base string) error
-	Update(base string) error
+	CheckJobByStatus(base string) error
+	InsertJobExecution(base string) error
+	UpdateJobExecution(base string) error
 }
 
 type repositoryImpl struct{}
 
-var instance = &repositoryImpl{}
+var (
+	instance   = &repositoryImpl{}
+	stmtInsert *sql.Stmt
+)
 
 func Get() Repository {
 	return instance
 }
 
-func (r *repositoryImpl) Select(base string) error {
-	return errors.New("not implemented")
+func (r *repositoryImpl) CheckJobByStatus(base string) error {
+	_, err := stmtInsert.Exec()
+	return err
 }
 
-func (r *repositoryImpl) Create(base string) error {
-	return errors.New("not implemented")
+func (r *repositoryImpl) InsertJobExecution(base string) error {
+	_, err := stmtInsert.Exec()
+	return err
 }
 
-func (r *repositoryImpl) Update(base string) error {
-	return errors.New("not implemented")
+func (r *repositoryImpl) UpdateJobExecution(base string) error {
+	_, err := stmtInsert.Exec()
+	return err
 }
