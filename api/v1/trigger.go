@@ -24,7 +24,7 @@ func TriggerPostAPIHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	common.Write(w, JobResponse{JobId: fmt.Sprint(ID), ObjectId: objectId}, http.StatusAccepted)
+	common.Write(w, JobResponse{JobId: fmt.Sprint(ID), ObjectId: objectId}, http.StatusOK)
 }
 
 func TriggerPutAPIHandler(w http.ResponseWriter, r *http.Request) {
@@ -37,5 +37,5 @@ func TriggerPutAPIHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	common.Write(w, JobResponse{JobId: fmt.Sprint(ID), ObjectId: objectId}, http.StatusAccepted)
+	common.Write(w, JobResponse{JobId: fmt.Sprint(ID), ObjectId: objectId}, http.StatusOK)
 }
