@@ -6,10 +6,15 @@ import (
 	"sync/atomic"
 	"time"
 
+	sq "github.com/Masterminds/squirrel"
+
 	_ "github.com/jackc/pgx/v4/stdlib"
 )
 
 var (
+	// Psq query builder instance
+	Psq = sq.StatementBuilder.PlaceholderFormat(sq.Dollar)
+
 	// DB is a db instance
 	DB *sql.DB
 
@@ -33,7 +38,7 @@ func setupDB() error {
 	if err != nil {
 		return err
 	}
-	db.SetMaxIdleConns(app.GetEnvInt("DATASOURCE_NAME"))
+	db.SetMaxIdleConns(app.GetEnvInt("DB_MAX_IDLE_CONNS"))
 	db.SetMaxOpenConns(app.GetEnvInt("DB_MAX_OPEN_CONNS"))
 	db.SetConnMaxLifetime(time.Duration(app.GetEnvInt("DB_CONN_MAX_LIFETIME")) * time.Second)
 

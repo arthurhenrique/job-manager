@@ -1,7 +1,9 @@
 package v1
 
 import (
+	"fmt"
 	"hasty-challenge-manager/common"
+	"hasty-challenge-manager/facade"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -17,7 +19,12 @@ func TriggerPostAPIHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	objectId := vars["id"]
 
-	common.Write(w, JobResponse{JobId: "1", ObjectId: objectId}, http.StatusAccepted)
+	ID, err := facade.Get().Insert(objectId)
+	if err != nil {
+		return
+	}
+
+	common.Write(w, JobResponse{JobId: fmt.Sprint(ID), ObjectId: objectId}, http.StatusAccepted)
 }
 
 func TriggerPutAPIHandler(w http.ResponseWriter, r *http.Request) {
@@ -25,6 +32,10 @@ func TriggerPutAPIHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	objectId := vars["id"]
 
-	common.Write(w, JobResponse{JobId: "1", ObjectId: objectId}, http.StatusAccepted)
+	ID, err := facade.Get().Update(objectId)
+	if err != nil {
+		return
+	}
 
+	common.Write(w, JobResponse{JobId: fmt.Sprint(ID), ObjectId: objectId}, http.StatusAccepted)
 }

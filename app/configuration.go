@@ -9,10 +9,12 @@ import (
 )
 
 var config = map[string]string{
-	"ENVIRONMENT":          "dev",
-	"LOG_LEVEL":            "DEBUG",
-	"HTTP_PORT":            "9000",
-	"JOB_TIMEOUT":          "300",
+	"ENVIRONMENT": "dev",
+	"LOG_LEVEL":   "DEBUG",
+	"HTTP_PORT":   "9000",
+	// Job timeout to set job as CANCELLED status
+	"JOB_TIMEOUT": "300",
+	// Database configuration environment vars
 	"DATASOURCE_NAME":      "host=localhost port=5432 user=master password=123456 dbname=job_manager sslmode=disable",
 	"DB_MAX_IDLE_CONNS":    "5",
 	"DB_MAX_OPEN_CONNS":    "10",
