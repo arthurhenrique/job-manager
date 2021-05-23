@@ -1,0 +1,25 @@
+version: "2.1"
+
+services:
+  db:
+    container_name: job-manager-postgres
+    image: postgres:13-alpine
+    mem_limit: 500m
+    networks:
+      - job-manager-stack
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: job_manager
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_USER: master
+    healthcheck:
+      test: ["CMD", "pg_isready"]
+      interval: 1s
+      timeout: 3s
+      retries: 30
+
+volumes:
+  db:
+
+networks: {job-manager-stack: {}}

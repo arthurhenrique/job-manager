@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+   tests:
+    name: "Tests"
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-go@v2
+        with:
+          go-version: '1.16.4'
+      - run: make install
+      - run: make docker/up
+      - run: make test
+      - run: make test-deployment-yaml
