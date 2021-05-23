@@ -1,0 +1,89 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hasty-challenge-manager
+  generation: 1
+  labels:
+    app: hasty-challenge-manager
+    tier: application
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hasty-challenge-manager
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: hasty-challenge-manager
+        k8s/version: v1
+        tier: application
+    spec:
+      containers:
+      - name: hasty-challenge-manager
+        image: sbf/hasty-challenge-manager:${VERSION}
+        args: ["api"]
+        imagePullPolicy: IfNotPresent
+        envFrom:
+          - configMapRef:
+              name: hasty-challenge-manager
+        ports:
+          - containerPort: 9000
+            name: healthcheck
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /healthcheck
+            port: 9000
+            scheme: HTTP
+            httpHeaders:
+              - name: Host
+                value: localhost
+          initialDelaySeconds: 15
+          periodSeconds: 120
+          successThreshold: 1
+          timeoutSeconds: 60
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /healthcheck
+            port: 9000
+            scheme: HTTP
+            httpHeaders:
+              - name: Host
+                value: localhost
+          initialDelaySeconds: 15
+          periodSeconds: 120
+          successThreshold: 1
+          timeoutSeconds: 60
+        resources:
+          limits:
+            cpu: 200m
+            memory: 300Mi
+          requests:
+            cpu: 50m
+            memory: 300Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hasty-challenge-manager
+  labels:
+    app: hasty-challenge-manager
+    kubernetes.io/name: hasty-challenge-manager
+spec:
+  ports:
+    - port: 80
+      name: http
+      targetPort: 9000
+    - port: 443
+      name: https
+      targetPort: 9000
+  selector:
+    app: hasty-challenge-manager
+  type: ClusterIP
