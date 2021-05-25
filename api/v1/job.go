@@ -14,7 +14,7 @@ type JobResponse struct {
 	ObjectId string `json:"object_id"`
 }
 
-func TriggerPostAPIHandler(w http.ResponseWriter, r *http.Request) {
+func JobPostAPIHandler(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	vars := mux.Vars(r)
 	objectId := vars["id"]
@@ -27,7 +27,7 @@ func TriggerPostAPIHandler(w http.ResponseWriter, r *http.Request) {
 	common.Write(w, JobResponse{JobId: fmt.Sprint(ID), ObjectId: objectId}, http.StatusOK)
 }
 
-func TriggerPutAPIHandler(w http.ResponseWriter, r *http.Request) {
+func JobPutAPIHandler(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	vars := mux.Vars(r)
 	objectId := vars["id"]

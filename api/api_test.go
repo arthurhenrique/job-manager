@@ -23,7 +23,7 @@ func TestHandlers(t *testing.T) {
 		logrus.Fatalf("error getting db, err: %v", err)
 	}
 	test.MockHTTP(t, func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.Path == "/v1/trigger/999" && r.Method == "POST" {
+		if r.URL.Path == "/v1/job/999" && r.Method == "POST" {
 			w.WriteHeader(http.StatusOK)
 			return
 		}
@@ -34,7 +34,7 @@ func TestHandlers(t *testing.T) {
 		{
 			Name:         "should return OK status with body POST",
 			Method:       http.MethodPost,
-			Route:        "http://localhost:9000/v1/trigger/999",
+			Route:        "http://localhost:9000/v1/job/999",
 			BodyContains: "999",
 			Status:       http.StatusOK,
 		},
