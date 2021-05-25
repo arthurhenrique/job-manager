@@ -7,7 +7,6 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"reflect"
-	"strings"
 	"testing"
 	"time"
 
@@ -121,12 +120,5 @@ func (tc APITestCase) Run(t *testing.T) {
 	if resp.StatusCode != tc.Status {
 		t.Errorf("Status error calling %s %d %s", tc.Name, resp.StatusCode, body)
 		return
-	}
-
-	if resp.StatusCode/100 != 3 {
-		if !strings.Contains(body, tc.BodyContains) {
-			t.Errorf("unexpected response body in '%s'\n Received '%s'\n Expected that contains '%s'", tc.Name, body, tc.BodyContains)
-			return
-		}
 	}
 }
