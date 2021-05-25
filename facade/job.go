@@ -2,6 +2,7 @@ package facade
 
 import (
 	"database/sql"
+	"hasty-challenge-manager/domain"
 	"hasty-challenge-manager/repository"
 )
 
@@ -57,6 +58,21 @@ func (f *Facade) UpdateSleep(objectID string, sleep int) (err error) {
 		var err error
 
 		err = f.Jobs.UpdateJobSleep(tx, objectID, sleep)
+		if err != nil {
+			return err
+		}
+
+		return nil
+	})
+
+	return
+}
+
+func (f *Facade) Select(objectID string) (result domain.JobExecution, err error) {
+	err = WithTx(f.Tx, func(tx *sql.Tx) error {
+		var err error
+
+		result, err = f.Jobs.FindByJobID(tx, objectID)
 		if err != nil {
 			return err
 		}

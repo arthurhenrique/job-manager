@@ -80,6 +80,8 @@ func JobHandlerV1(w http.ResponseWriter, r *http.Request) {
 		v1.JobPostAPIHandler(w, r)
 	case http.MethodPut:
 		v1.JobPutAPIHandler(w, r)
+	case http.MethodGet:
+		v1.JobGetAPIHandler(w, r)
 	default:
 		http.Error(w, methodNotAllowedErrorMessage, http.StatusMethodNotAllowed)
 	}
