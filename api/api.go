@@ -19,7 +19,8 @@ var (
 	HealthCheckHandlerPath = "/healthcheck"
 
 	// v1
-	JobHandlerV1Path = "/v1/job/{id:[0-9]+}"
+	JobHandlerV1Path     = "/v1/job/{id:[0-9]+}"
+	TriggerHandlerV1Path = "/v1/trigger/{id:[0-9]+}"
 
 	methodNotAllowedErrorMessage = "Invalid request method"
 )
@@ -40,6 +41,7 @@ func Setup() error {
 	r.HandleFunc(HealthCheckHandlerPath, HealthCheckHandler)
 
 	r.HandleFunc(JobHandlerV1Path, JobHandlerV1)
+	r.HandleFunc(TriggerHandlerV1Path, TriggerHandlerV1)
 
 	srv := &http.Server{
 		ReadTimeout:  time.Duration(30) * time.Second,
@@ -74,12 +76,19 @@ func HealthCheckHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "OK")
 }
 
-func JobHandlerV1(w http.ResponseWriter, r *http.Request) {
+func TriggerHandlerV1(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodPost:
-		v1.JobPostAPIHandler(w, r)
+		v1.TriggerPostAPIHandler(w, r)
 	case http.MethodPut:
-		v1.JobPutAPIHandler(w, r)
+		v1.TriggerPutAPIHandler(w, r)
+	default:
+		http.Error(w, methodNotAllowedErrorMessage, http.StatusMethodNotAllowed)
+	}
+}
+
+func JobHandlerV1(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
 	case http.MethodGet:
 		v1.JobGetAPIHandler(w, r)
 	default:

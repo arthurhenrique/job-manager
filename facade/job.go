@@ -36,6 +36,22 @@ func (f *Facade) Insert(objectID string) (jobID string, err error) {
 	return
 }
 
+// Update updates a job execution
+func (f *Facade) Update(objectID string) (jobID string, err error) {
+	err = WithTx(f.Tx, func(tx *sql.Tx) error {
+		var err error
+
+		jobID, err = f.Jobs.UpdateJobExecution(tx, objectID)
+		if err != nil {
+			return err
+		}
+
+		return nil
+	})
+
+	return
+}
+
 // UpdateStatus update the status given a job execution
 func (f *Facade) UpdateStatus(objectID, status string) (err error) {
 	err = WithTx(f.Tx, func(tx *sql.Tx) error {
@@ -68,11 +84,12 @@ func (f *Facade) UpdateSleep(objectID string, sleep int) (err error) {
 	return
 }
 
-func (f *Facade) Select(objectID string) (result domain.JobExecution, err error) {
+// Select return job execution by job ID
+func (f *Facade) Select(jobID string) (result domain.JobExecution, err error) {
 	err = WithTx(f.Tx, func(tx *sql.Tx) error {
 		var err error
 
-		result, err = f.Jobs.FindByJobID(tx, objectID)
+		result, err = f.Jobs.FindByJobID(tx, jobID)
 		if err != nil {
 			return err
 		}

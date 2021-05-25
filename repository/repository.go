@@ -10,6 +10,7 @@ import (
 
 type Repository interface {
 	InsertJobExecution(tx *sql.Tx, objectID string) (string, error)
+	UpdateJobExecution(tx *sql.Tx, objectID string) (string, error)
 	UpdateJobStatus(tx *sql.Tx, objectID, status string) error
 	UpdateJobSleep(tx *sql.Tx, objectID string, sleep int) error
 	FindByJobID(tx *sql.Tx, jobID string) (domain.JobExecution, error)
@@ -68,6 +69,25 @@ func (r *repositoryImpl) InsertJobExecution(tx *sql.Tx, objectID string) (string
 
 	ID := ""
 	err = tx.QueryRow(insert, values...).Scan(&ID)
+	if err != nil {
+		return "", err
+	}
+
+	return ID, err
+}
+
+func (r *repositoryImpl) UpdateJobExecution(tx *sql.Tx, objectID string) (string, error) {
+	set, values, err := Psq.Update("job_manager.job_execution").
+		Set("status", domain.Processing.String()).
+		Set("updated_at", time.Now()).
+		Where(sq.Eq{"object_id": objectID}).
+		Suffix("RETURNING id").ToSql()
+	if err != nil {
+		return "", err
+	}
+
+	ID := ""
+	err = tx.QueryRow(set, values...).Scan(&ID)
 	if err != nil {
 		return "", err
 	}
