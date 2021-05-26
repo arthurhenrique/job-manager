@@ -21,6 +21,7 @@ func TriggerPostAPIHandler(w http.ResponseWriter, r *http.Request) {
 
 	jobID, err := facade.Get().Insert(objectID)
 	if err != nil {
+		common.WriteServerError(w, err, "error trigger this job")
 		return
 	}
 
@@ -34,8 +35,15 @@ func TriggerPutAPIHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	objectID := vars["id"]
 
+	err := facade.Get().CheckTimeWindow(objectID)
+	if err != nil {
+		common.WriteValidationError(w, err)
+		return
+	}
+
 	jobID, err := facade.Get().Update(objectID)
 	if err != nil {
+		common.WriteServerError(w, err, "error trigger this job")
 		return
 	}
 

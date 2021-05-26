@@ -2,8 +2,11 @@ package facade
 
 import (
 	"database/sql"
+	"errors"
+	"hasty-challenge-manager/app"
 	"hasty-challenge-manager/domain"
 	"hasty-challenge-manager/repository"
+	"time"
 )
 
 var instance = &Facade{
@@ -92,6 +95,25 @@ func (f *Facade) Select(jobID string) (result domain.JobExecution, err error) {
 		result, err = f.Jobs.FindByJobID(tx, jobID)
 		if err != nil {
 			return err
+		}
+
+		return nil
+	})
+
+	return
+}
+
+// CheckTimeWindow window
+func (f *Facade) CheckTimeWindow(objectID string) (err error) {
+	err = WithTx(f.Tx, func(tx *sql.Tx) error {
+		result, err := f.Jobs.FindByObjectID(tx, objectID)
+		if err != nil {
+			return err
+		}
+
+		jobWindowUpdate := time.Minute * time.Duration(app.GetEnvInt("JOB_WINDOW_UPDATE"))
+		if time.Now().Sub(result.UpdatedAt) <= jobWindowUpdate {
+			return errors.New("This should be executed only once in a time window of 5 minutes")
 		}
 
 		return nil
