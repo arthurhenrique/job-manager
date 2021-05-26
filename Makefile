@@ -20,7 +20,7 @@ run:
 	go run main.go api
 
 test:
-	go test -count=1 -v $(GOPACKAGES)
+	ENVIRONMENT="test" go test -count=1 -v $(GOPACKAGES)
 
 test-deployment-yaml:
 	wget https://github.com/instrumenta/kubeval/releases/latest/download/kubeval-linux-amd64.tar.gz && \
