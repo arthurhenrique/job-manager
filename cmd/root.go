@@ -10,7 +10,7 @@ import (
 var RootCmd = &cobra.Command{
 	Use:   "hasty-challenge-manager",
 	Short: "hasty-challenge-manager - Hasty Backend Challenge",
-	Long:  `hasty-challenge-manager - Hasty Backend Challenge`,
+	Long:  "hasty-challenge-manager - Hasty Backend Challenge",
 }
 
 func Execute() {

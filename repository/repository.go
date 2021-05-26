@@ -11,9 +11,11 @@ import (
 type Repository interface {
 	InsertJobExecution(tx *sql.Tx, objectID string) (string, error)
 	UpdateJobExecution(tx *sql.Tx, objectID string) (string, error)
-	UpdateJobStatus(tx *sql.Tx, objectID, status string) error
-	UpdateJobSleep(tx *sql.Tx, objectID string, sleep int) error
+	UpdateJobStatus(tx *sql.Tx, jobID, status string) error
+	UpdateJobSleep(tx *sql.Tx, jobID string, sleep int) error
 	FindByJobID(tx *sql.Tx, jobID string) (domain.JobExecution, error)
+	FindByObjectID(tx *sql.Tx, objectID string) (domain.JobExecution, error)
+	FindByStatus(tx *sql.Tx, status string) ([]domain.JobExecution, error)
 }
 
 type repositoryImpl struct{}
@@ -95,11 +97,11 @@ func (r *repositoryImpl) UpdateJobExecution(tx *sql.Tx, objectID string) (string
 	return ID, err
 }
 
-func (r *repositoryImpl) UpdateJobStatus(tx *sql.Tx, objectID, status string) error {
+func (r *repositoryImpl) UpdateJobStatus(tx *sql.Tx, jobID, status string) error {
 	set, values, err := Psq.Update("job_manager.job_execution").
 		Set("status", status).
 		Set("updated_at", time.Now()).
-		Where(sq.Eq{"id": objectID}).ToSql()
+		Where(sq.Eq{"id": jobID}).ToSql()
 	if err != nil {
 		return nil
 	}
@@ -112,11 +114,11 @@ func (r *repositoryImpl) UpdateJobStatus(tx *sql.Tx, objectID, status string) er
 	return nil
 }
 
-func (r *repositoryImpl) UpdateJobSleep(tx *sql.Tx, objectID string, sleep int) error {
+func (r *repositoryImpl) UpdateJobSleep(tx *sql.Tx, jobID string, sleep int) error {
 	set, values, err := Psq.Update("job_manager.job_execution").
 		Set("sleep", sleep).
 		Set("updated_at", time.Now()).
-		Where(sq.Eq{"id": objectID}).ToSql()
+		Where(sq.Eq{"id": jobID}).ToSql()
 	if err != nil {
 		return nil
 	}
@@ -130,7 +132,9 @@ func (r *repositoryImpl) UpdateJobSleep(tx *sql.Tx, objectID string, sleep int) 
 }
 
 func (r *repositoryImpl) FindByJobID(tx *sql.Tx, jobID string) (domain.JobExecution, error) {
-	query, values, err := Psq.Select("id,object_id,sleep,status,created_at,updated_at").From("job_manager.job_execution").Where(sq.Eq{"id": jobID}).ToSql()
+	query, values, err := Psq.Select("id,object_id,sleep,status,created_at,updated_at").
+		From("job_manager.job_execution").
+		Where(sq.Eq{"id": jobID}).ToSql()
 	if err != nil {
 		return domain.JobExecution{}, err
 	}
@@ -155,4 +159,65 @@ func (r *repositoryImpl) FindByJobID(tx *sql.Tx, jobID string) (domain.JobExecut
 	}
 
 	return domain.JobExecution{}, sql.ErrNoRows
+}
+
+func (r *repositoryImpl) FindByObjectID(tx *sql.Tx, objectID string) (domain.JobExecution, error) {
+	query, values, err := Psq.Select("id,object_id,sleep,status,created_at,updated_at").
+		From("job_manager.job_execution").
+		Where(sq.Eq{"object_id": objectID}).ToSql()
+	if err != nil {
+		return domain.JobExecution{}, err
+	}
+
+	var rows *sql.Rows
+	if tx == nil {
+		rows, err = DB.Query(query, values...)
+	} else {
+		rows, err = tx.Query(query, values...)
+	}
+	if err != nil {
+		return domain.JobExecution{}, err
+	}
+	defer CloseRows(rows)
+
+	if rows.Next() {
+		result, err := r.scanRow(rows)
+		if err != nil {
+			return domain.JobExecution{}, err
+		}
+		return result, nil
+	}
+
+	return domain.JobExecution{}, sql.ErrNoRows
+}
+
+func (r *repositoryImpl) FindByStatus(tx *sql.Tx, status string) ([]domain.JobExecution, error) {
+	query, values, err := Psq.Select("id,object_id,sleep,status,created_at,updated_at").
+		From("job_manager.job_execution").
+		Where(sq.Eq{"status": status}).ToSql()
+	if err != nil {
+		return []domain.JobExecution{}, err
+	}
+
+	var rows *sql.Rows
+	if tx == nil {
+		rows, err = DB.Query(query, values...)
+	} else {
+		rows, err = tx.Query(query, values...)
+	}
+	if err != nil {
+		return []domain.JobExecution{}, err
+	}
+	defer CloseRows(rows)
+
+	results := []domain.JobExecution{}
+	if rows.Next() {
+		result, err := r.scanRow(rows)
+		if err != nil {
+			return []domain.JobExecution{}, err
+		}
+		results = append(results, result)
+	}
+
+	return results, nil
 }

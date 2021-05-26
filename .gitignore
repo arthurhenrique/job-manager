@@ -13,9 +13,7 @@
 
 # Dependency directories (remove the comment below to include it)
 vendor/
-<<<<<<< HEAD
 
 # Editor
 .vscode
-=======
->>>>>>> feat: introduce job manager
+__debug_bin
