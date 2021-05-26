@@ -56,11 +56,11 @@ func (f *Facade) Update(objectID string) (jobID string, err error) {
 }
 
 // UpdateStatus update the status given a job execution
-func (f *Facade) UpdateStatus(objectID, status string) (err error) {
+func (f *Facade) UpdateStatus(jobID, status string) (err error) {
 	err = WithTx(f.Tx, func(tx *sql.Tx) error {
 		var err error
 
-		err = f.Jobs.UpdateJobStatus(tx, objectID, status)
+		err = f.Jobs.UpdateJobStatus(tx, jobID, status)
 		if err != nil {
 			return err
 		}
@@ -72,11 +72,11 @@ func (f *Facade) UpdateStatus(objectID, status string) (err error) {
 }
 
 // UpdateSleep update the sleep given a job execution
-func (f *Facade) UpdateSleep(objectID string, sleep int) (err error) {
+func (f *Facade) UpdateSleep(jobID string, sleep int) (err error) {
 	err = WithTx(f.Tx, func(tx *sql.Tx) error {
 		var err error
 
-		err = f.Jobs.UpdateJobSleep(tx, objectID, sleep)
+		err = f.Jobs.UpdateJobSleep(tx, jobID, sleep)
 		if err != nil {
 			return err
 		}
