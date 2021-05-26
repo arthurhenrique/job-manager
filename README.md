@@ -13,7 +13,9 @@ This repository refers to backend hasty test `challenge/Hasty_BE_Challange.pdf`
 
 ## Architecture
 
-TODO
+<img src="./docs/architecture.png" alt="Architecture" width="600"/>
+
+*To edit use <https://www.draw.io/> and open [./docs/architecture.drawio](./docs/architecture.drawio)*
 
 ## Environment
 
@@ -73,8 +75,13 @@ $ make docker/registry
 ```
 
 ## Kubernetes
+
 The deploy directory contains yaml files to deploy to a kubernetes cluster. These yaml files are validated for continuous integration, but not deployed.
 
 ## CI/CD
 
 This project has a simple integration with github actions to run automated tests and validate kubernetes yaml file.
+
+## TODO List
+
++ [wow such items](https://gist.github.com/arthurhenrique/d7d2484532baf4c12faf9a0fa2c7738b)
