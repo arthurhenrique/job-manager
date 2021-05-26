@@ -12,13 +12,13 @@ import (
 func Run() error {
 	err := cancelJobsByTimeout()
 	if err != nil {
-		logrus.Error("cancelJobsByTimeout error %v", err)
+		logrus.Errorf("cancelJobsByTimeout error %v", err)
 		return err
 	}
 
 	err = retryJobsFailed()
 	if err != nil {
-		logrus.Error("retryJobsFailed error %v", err)
+		logrus.Errorf("retryJobsFailed error %v", err)
 		return err
 	}
 
