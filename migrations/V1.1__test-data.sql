@@ -16,6 +16,6 @@ INSERT INTO job_execution (object_id, sleep, status, created_at, updated_at)
 VALUES('5', 35, 'SUCCESS', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 INSERT INTO job_execution (object_id, sleep, status, created_at, updated_at)
-VALUES('6', 30, null, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP - interval '5 minutes' );
+VALUES('6', 30, 'PROCESSING', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP - interval '5 minutes' );
 
 
