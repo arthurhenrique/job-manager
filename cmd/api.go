@@ -10,7 +10,7 @@ var (
 	apiCommand = &cobra.Command{
 		Use:   "api",
 		Short: "Initialize the hasty job manager",
-		Long:  "Initialize the hasty job manager (Backend Challenge)",
+		Long:  "Initialize the hasty job manager",
 		RunE:  apiExecute,
 	}
 )

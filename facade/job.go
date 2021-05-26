@@ -104,16 +104,56 @@ func (f *Facade) Select(jobID string) (result domain.JobExecution, err error) {
 }
 
 // CheckTimeWindow window
-func (f *Facade) CheckTimeWindow(objectID string) (err error) {
+func (f *Facade) CheckTimeWindow(objectID string) (isOk bool, err error) {
 	err = WithTx(f.Tx, func(tx *sql.Tx) error {
+		isOk = true
 		result, err := f.Jobs.FindByObjectID(tx, objectID)
 		if err != nil {
+			isOk = false
 			return err
 		}
 
 		jobWindowUpdate := time.Minute * time.Duration(app.GetEnvInt("JOB_WINDOW_UPDATE"))
 		if time.Now().Sub(result.UpdatedAt) <= jobWindowUpdate {
+			isOk = false
 			return errors.New("This should be executed only once in a time window of 5 minutes")
+		}
+
+		return nil
+	})
+
+	return
+}
+
+// CheckTimeoutProcessing should verify using JOB_TIMEOUT to cancel
+func (f *Facade) CheckTimeoutProcessing(objectID string) (isOk bool, err error) {
+	err = WithTx(f.Tx, func(tx *sql.Tx) error {
+		isOk = true
+		result, err := f.Jobs.FindByObjectID(tx, objectID)
+		if err != nil {
+			isOk = false
+			return err
+		}
+
+		jobWindowUpdate := time.Minute * time.Duration(app.GetEnvInt("JOB_TIMEOUT"))
+		if time.Now().Sub(result.UpdatedAt) <= jobWindowUpdate {
+			isOk = false
+		}
+
+		return nil
+	})
+
+	return
+}
+
+// SelectByStatus return jobs execution by status
+func (f *Facade) SelectByStatus(status string) (result []domain.JobExecution, err error) {
+	err = WithTx(f.Tx, func(tx *sql.Tx) error {
+		var err error
+
+		result, err = f.Jobs.FindByStatus(tx, status)
+		if err != nil {
+			return err
 		}
 
 		return nil

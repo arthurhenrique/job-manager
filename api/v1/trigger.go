@@ -35,7 +35,7 @@ func TriggerPutAPIHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	objectID := vars["id"]
 
-	err := facade.Get().CheckTimeWindow(objectID)
+	_, err := facade.Get().CheckTimeWindow(objectID)
 	if err != nil {
 		common.WriteValidationError(w, err)
 		return

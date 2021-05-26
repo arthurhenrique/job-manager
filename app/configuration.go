@@ -13,7 +13,7 @@ var config = map[string]string{
 	"LOG_LEVEL":   "DEBUG",
 	"HTTP_PORT":   "9000",
 	// Job timeout to set job as CANCELLED status
-	"JOB_TIMEOUT": "300",
+	"JOB_TIMEOUT": "1",
 	// Job windows 5 minutes
 	"JOB_WINDOW_UPDATE": "5",
 	// Database configuration environment vars
