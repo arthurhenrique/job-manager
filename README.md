@@ -4,7 +4,7 @@ This repository refers to backend hasty test `challenge/Hasty_BE_Challange.pdf`
 
 ----
 
-## Dependencies
+## Technologies
 
 + [golang](https://golang.org/doc/install/source?download=go1.16.4.src.tar.gz) ⚡
 + [make](https://www.gnu.org/software/make/) ❤️
@@ -24,6 +24,12 @@ TODO
 
 ``` bash
 $ make install
+```
+
+## Dependencies
+
+```sh
+$ make docker/up
 ```
 
 ## Run
