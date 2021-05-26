@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 data:
-  JOB_TIMEOUT: "300"
+  JOB_TIMEOUT: "1"
   JOB_WINDOW_UPDATE: "5"
 metadata:
   name: hasty-challenge-manager

@@ -19,6 +19,9 @@ install: clean vendor
 run:
 	go run main.go api
 
+run-schedule:
+	go run main.go schedule-checker
+
 test:
 	ENVIRONMENT="test" go test -count=1 -v $(GOPACKAGES)
 

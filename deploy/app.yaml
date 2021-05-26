@@ -26,7 +26,7 @@ spec:
     spec:
       containers:
       - name: hasty-challenge-manager
-        image: sbf/hasty-challenge-manager:${VERSION}
+        image: arthurhenrique/hasty-challenge-manager:${VERSION}
         args: ["api"]
         imagePullPolicy: IfNotPresent
         envFrom:
