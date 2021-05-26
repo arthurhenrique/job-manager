@@ -1,0 +1,40 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: schedule-checker
+spec:
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
+  schedule: "*/5 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: schedule-checker
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: schedule-checker
+            image: arthurhenrique/hasty-challenge-manager:${version}
+            args:
+            - schedule-checker
+            imagePullPolicy: IfNotPresent
+            envFrom:
+              - configMapRef:
+                  name: tekpix
+            env:
+            - name: LOG_LEVEL
+              value: debug
+            - name: ENVIRONMENT
+              value: production
+            - name: JOB_TIMEOUT
+            - name: JOB_WINDOW_UPDATE
+            resources:
+              limits:
+                cpu: 100m
+                memory: 512Mi
+              requests:
+                cpu: 100m
+                memory: 64Mi
