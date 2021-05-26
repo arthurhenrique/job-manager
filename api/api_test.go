@@ -23,7 +23,7 @@ func TestTriggerHandlers(t *testing.T) {
 		logrus.Fatalf("error getting db, err: %v", err)
 	}
 	test.MockHTTP(t, func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.Path == "/v1/trigger/999" && (r.Method == "POST" || r.Method == "PUT") {
+		if (r.URL.Path == "/v1/trigger/999" || r.URL.Path == "/v1/trigger/6") && (r.Method == "POST" || r.Method == "PUT") {
 			w.WriteHeader(http.StatusOK)
 			return
 		}
@@ -40,7 +40,7 @@ func TestTriggerHandlers(t *testing.T) {
 		{
 			Name:   "should return OK status PUT",
 			Method: http.MethodPut,
-			Route:  "http://localhost:9000/v1/trigger/999",
+			Route:  "http://localhost:9000/v1/trigger/6",
 			Status: http.StatusOK,
 		},
 	}
