@@ -1,6 +1,5 @@
-# hasty-challenge-manager
+# job-manager
 
-This repository refers to backend hasty test `challenge/Hasty_BE_Challange.pdf`
 
 ----
 
