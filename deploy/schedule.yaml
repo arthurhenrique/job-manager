@@ -23,7 +23,7 @@ spec:
             imagePullPolicy: IfNotPresent
             envFrom:
               - configMapRef:
-                  name: tekpix
+                  name: hasty-challenge-manager
             env:
             - name: LOG_LEVEL
               value: debug
