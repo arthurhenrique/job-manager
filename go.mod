@@ -8,7 +8,7 @@ require (
 	github.com/go-ozzo/ozzo-validation/v4 v4.3.0 // indirect
 	github.com/go-redis/cache/v8 v8.4.1 // indirect
 	github.com/go-redis/redis/v8 v8.8.3 // indirect
-	github.com/google/go-cmp v0.5.5
+	github.com/google/go-cmp v0.5.9
 	github.com/gorilla/mux v1.8.0
 	github.com/jackc/pgx/v4 v4.11.0
 	github.com/rs/cors v1.7.0
