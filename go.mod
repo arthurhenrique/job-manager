@@ -1,7 +1,7 @@
 module hasty-challenge-manager
 
 // +heroku goVersion go1.16
-go 1.16
+go 1.19
 
 require (
 	github.com/Masterminds/squirrel v1.5.0
