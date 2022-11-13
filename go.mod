@@ -4,7 +4,7 @@ module hasty-challenge-manager
 go 1.16
 
 require (
-	github.com/Masterminds/squirrel v1.5.0
+	github.com/Masterminds/squirrel v1.5.3
 	github.com/go-ozzo/ozzo-validation/v4 v4.3.0 // indirect
 	github.com/go-redis/cache/v8 v8.4.1 // indirect
 	github.com/go-redis/redis/v8 v8.8.3 // indirect
