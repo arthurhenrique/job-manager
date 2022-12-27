@@ -7,7 +7,8 @@ require (
 	github.com/Masterminds/squirrel v1.5.3
 	github.com/google/go-cmp v0.5.9
 	github.com/gorilla/mux v1.8.0
-	github.com/jackc/pgx/v4 v4.11.0
+	github.com/jackc/pgx/v4 v4.6.1-0.20200606145419-4e5062306904
+	github.com/jackc/pgx/v5 v5.2.0
 	github.com/rs/cors v1.8.2
 	github.com/sirupsen/logrus v1.8.0
 	github.com/spf13/cobra v1.6.1
@@ -30,7 +31,8 @@ require (
 	github.com/magefile/mage v1.10.0 // indirect
 	github.com/shopspring/decimal v1.2.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
-	golang.org/x/crypto v0.0.0-20210322153248-0c34fe9e7dc2 // indirect
-	golang.org/x/sys v0.0.0-20210112080510-489259a85091 // indirect
-	golang.org/x/text v0.3.3 // indirect
+	golang.org/x/crypto v0.0.0-20220829220503-c86fa9a7ed90 // indirect
+	golang.org/x/sys v0.0.0-20220722155257-8c9f86f7a55f // indirect
+	golang.org/x/text v0.3.8 // indirect
+	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
 )
