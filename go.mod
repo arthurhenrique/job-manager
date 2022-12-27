@@ -10,7 +10,7 @@ require (
 	github.com/jackc/pgx/v4 v4.6.1-0.20200606145419-4e5062306904
 	github.com/jackc/pgx/v5 v5.2.0
 	github.com/rs/cors v1.8.2
-	github.com/sirupsen/logrus v1.8.0
+	github.com/sirupsen/logrus v1.9.0
 	github.com/spf13/cobra v1.6.1
 )
 
