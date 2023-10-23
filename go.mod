@@ -4,7 +4,7 @@ module hasty-challenge-manager
 go 1.19
 
 require (
-	github.com/Masterminds/squirrel v1.5.3
+	github.com/Masterminds/squirrel v1.5.4
 	github.com/google/go-cmp v0.5.9
 	github.com/gorilla/mux v1.8.0
 	github.com/jackc/pgx/v4 v4.6.1-0.20200606145419-4e5062306904
