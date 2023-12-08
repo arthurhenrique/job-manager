@@ -8,7 +8,7 @@ RUN go mod download && go mod verify
 
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build --ldflags='-w -s -extldflags "-static"' -v -a -o /go/bin/hasty-challenge-manager .
 
-FROM alpine:3.17
+FROM alpine:3.19
 
 COPY --from=builder /go/bin/hasty-challenge-manager /go/bin/hasty-challenge-manager
 
